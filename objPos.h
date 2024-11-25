@@ -27,9 +27,7 @@ class objPos
 
         void setObjPos(objPos o);    
         void setObjPos(int xPos, int yPos, char sym); 
-        //void initGameBoard(int rangeX, int rangeY); 
-        //void drawGameBoard(int rangeX, int rangeY, objPos player);//, objPos item);
-
+         
         objPos getObjPos() const;
         char getSymbol() const;
         char getSymbolIfPosEqual(const objPos* refPos) const;

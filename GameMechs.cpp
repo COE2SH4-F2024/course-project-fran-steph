@@ -48,12 +48,21 @@ bool GameMechs::getLoseFlagStatus() const
 
 char GameMechs::getInput()
 {
+    //Commented out for tutorial 11, steph
+    /*
     //Tutorial 10, steph
     if(MacUILib_hasChar())
     {
         input = MacUILib_getChar();
     }
     //End Tutorial 10, steph
+
+    //Iteration 1B, steph
+    if(input==' ')
+    {
+        setExitTrue();
+    }
+    */
 
     return input;
 }
@@ -100,3 +109,16 @@ void GameMechs::clearInput()
 }
 
 // More methods should be added here
+void GameMechs::collectAsyncInput()
+{
+    //Tutorial 11, steph
+    if(MacUILib_hasChar())
+    {
+        input = MacUILib_getChar();
+    }
+
+    if(input==' ')
+    {
+        setExitTrue();
+    }
+}

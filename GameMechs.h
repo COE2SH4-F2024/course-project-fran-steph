@@ -20,7 +20,7 @@ class GameMechs
         int boardSizeX;
         int boardSizeY;
 
-        objPos food;
+        //objPos food; commented out because making separtae class, steph
 
     public:
         GameMechs();
@@ -43,6 +43,7 @@ class GameMechs
         void incrementScore();
         
         // More methods should be added here
+        void collectAsyncInput(); //Tutorial 11, steph
 };
 
 #endif

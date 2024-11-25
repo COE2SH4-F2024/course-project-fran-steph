@@ -3,6 +3,7 @@ CFLAGS=-I. -lm -g
 DEPS = *.h
 OBJ = objPos.o objPosArrayList.o testCases.o
 
+
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 

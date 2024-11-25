@@ -1,8 +1,8 @@
 #include <iostream>
 #include "MacUILib.h"
-//#include "objPos.h"
-
 #include "Player.h"
+#include "GameMechs.h"
+#include "Food.h"
 
 using namespace std;
 
@@ -10,7 +10,8 @@ using namespace std;
 
 Player *myPlayer; //Global pointer meant to instantiate a player object on the heap, Tutorial 10, steph
 GameMechs *myGM; //Tutorial 10, steph, iteration 1B, steph
-//objPos *myGameBoard; //Iteration 0, steph
+Food *myFood;
+
 
 void Initialize(void);
 void GetInput(void);
@@ -46,27 +47,25 @@ void Initialize(void)
 
     myGM = new GameMechs(); //Tutorial 10, steph, iteration 1B, steph
     myPlayer = new Player(myGM); //Tutorial 10, steph
-    //myGameBoard = new objPos(); //Iteration 0, steph
-
-    //myGameBoard->initGameBoard(myGM->getBoardSizeX(), myGM->getBoardSizeY()); //Iteration 0, steph
-
+    myFood = new Food(); //iteration 2B
+    
 }
 
 
 void GetInput(void)
 {
     //Iteration 1B, steph
-    char input = myGM->getInput();
-    myGM->setInput(input);
+    myGM->collectAsyncInput();
 }
 
 void RunLogic(void)
 {
-    //Iteration 1B, steph
-    if(myGM->getInput()==' ')
+    //Iteration 2B, for debugging
+    if(myGM->getInput()=='c')
     {
-        myGM->setExitTrue();
+        myFood->generateFood(myPlayer->getPlayerPos(),myGM->getBoardSizeX(), myGM->getBoardSizeY());
     }
+    
 }
 
 void DrawScreen(void)
@@ -75,19 +74,43 @@ void DrawScreen(void)
 
     //Tutorial 10, steph
     objPos playerPos = myPlayer -> getPlayerPos();
+    objPos foodPos = myFood -> getFoodPos();
+    int boardX = myGM->getBoardSizeX();
+    int boardY = myGM->getBoardSizeY();
     //End, Tutorial 10, steph
 
-    //Game board draw routine, iteration 0, steph
-   // myGameBoard->drawGameBoard(myGM->getBoardSizeX(), myGM->getBoardSizeY(), playerPos);//, itemPos)
+    for(int row = 0; row <= boardY; row++)
+    {
+        for(int col = 0; col <= boardX; col++)
+        {
+            if(row == 0 || row == boardY || col == 0 || col == boardX)
+            {
+                MacUILib_printf("%c", '#');
+            }
+            else if(row == playerPos.pos->y && col == playerPos.pos->x)
+            {
+                MacUILib_printf("%c",playerPos.symbol);
+            }
+            else if(row == foodPos.pos->y && col == foodPos.pos->x)
+            {
+                MacUILib_printf("%c", foodPos.symbol);
+                //For debugging, iteration 2B
+                myGM->clearInput();
+            }
+            else
+            {
+                MacUILib_printf("%c", ' ');
+            }
+        }
+        MacUILib_printf("%c", '\n');
+    }
 
     
     //Iteration 1B, steph
     //For debugging
     myGM->incrementScore();
     MacUILib_printf("The Score is: %d\n", myGM->getScore());
-    
-
-    if(myGM->getInput() == 'a')
+    if(myGM->getInput() == 'l')
     {
         MacUILib_printf("Player has Lost");
         MacUILib_Delay(500000);
@@ -104,19 +127,10 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    //MacUILib_clearScreen();  commented out by steph
-
+    //MacUILib_clearScreen();  Commented out by steph to test loseflag
     delete myPlayer; //Tutorial 10, steph
     delete myGM; //Tutorial 10, steph
-    /*
-    for(int i; i < myGM->getBoardSizeY(); i++)
-    {
-        delete[] myGameBoard->gameBoard[i];
-    }
-    delete[] myGameBoard->gameBoard;
-    */
-    //delete myGameBoard;
-    
+    delete myFood;
 
     MacUILib_uninit();
 }

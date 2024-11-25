@@ -62,36 +62,6 @@ void Player::updatePlayerDir()
                 break;
         }
 
-
-        //Stephanie's code
-        /*
-        switch(myDir)
-            {
-                case LEFT:
-                    if(input == 's' || input == 'S') myDir = DOWN;
-                    if(input == 'w' || input == 'W') myDir = UP;
-                    pos.x--;
-                    break;
-                case DOWN:
-                    if(input == 'd' || input == 'D') myDir = RIGHT;
-                    if(input == 'a' || input == 'A') myDir = LEFT;
-                    pos.y++;
-                    break;
-                case UP:
-                    if(input == 'd' || input == 'D') myDir = RIGHT;
-                    if(input == 'a' || input == 'A') myDir = LEFT;
-                    pos.y--;
-                    break;
-                case RIGHT:
-                    if(input == 's' || input == 'S') myDir = DOWN;
-                    if(input == 'w' || input == 'W') myDir = UP;
-                    pos.x++;
-                    break;
-                default:
-                    break;
-            }  
-            */
-
 }
 
 void Player::movePlayer()
