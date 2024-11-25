@@ -1,6 +1,6 @@
 #ifndef FOOD_H
 #define FOOD_H
-
+//Iteration 2B, steph
 #include <cstdlib>
 #include <time.h>
 #include "objPos.h"

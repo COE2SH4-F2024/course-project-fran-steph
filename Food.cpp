@@ -2,7 +2,7 @@
 #include "MacUILib.h"
 #include "GameMechs.h"
 
-//Iteration 2B
+//Iteration 2B, steph
 Food::Food()
 {
     foodPos.setObjPos(-10,-10,'*');
@@ -13,7 +13,6 @@ Food::~Food()
 
 }
 
-//Iteration 2B, steph
 void Food::generateFood(objPos blockOff, int xRange, int yRange)
 {
     int posX, posY;
