@@ -10,7 +10,7 @@ using namespace std;
 
 Player *myPlayer; //Global pointer meant to instantiate a player object on the heap, Tutorial 10, steph
 GameMechs *myGM; //Tutorial 10, steph, iteration 1B, steph
-Food *myFood;
+Food *myFood; //Iteration 2B, steph
 
 
 void Initialize(void);
@@ -47,7 +47,7 @@ void Initialize(void)
 
     myGM = new GameMechs(); //Tutorial 10, steph, iteration 1B, steph
     myPlayer = new Player(myGM); //Tutorial 10, steph
-    myFood = new Food(); //iteration 2B
+    myFood = new Food(); //iteration 2B, steph
     
 }
 
@@ -137,7 +137,7 @@ void CleanUp(void)
     //MacUILib_clearScreen();  Commented out by steph to test loseflag
     delete myPlayer; //Tutorial 10, steph
     delete myGM; //Tutorial 10, steph
-    delete myFood;
+    delete myFood; //Iteration 2B, steph
 
     MacUILib_uninit();
 }
