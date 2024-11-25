@@ -63,7 +63,7 @@ void RunLogic(void)
     //Iteration 2B, for debugging
     if(myGM->getInput()=='c')
     {
-        myFood->generateFood(myPlayer->getPlayerPos(),myGM->getBoardSizeX(), myGM->getBoardSizeY());
+        myFood->generateFood(myPlayer->getPlayerPos()->getHeadElement(),myGM->getBoardSizeX(), myGM->getBoardSizeY()); // edited by fran Iteration 3
     }
     myPlayer->updatePlayerDir(); // Iteration 1A, fran
     myPlayer->movePlayer(); // Iteration 1A, fran
@@ -74,33 +74,39 @@ void DrawScreen(void)
     MacUILib_clearScreen(); 
 
     //Tutorial 10, steph
-    objPos playerPos = myPlayer -> getPlayerPos();
+    objPosArrayList* playerPos = myPlayer -> getPlayerPos(); // edited by fran iteration 3
     objPos foodPos = myFood -> getFoodPos();
     int boardX = myGM->getBoardSizeX();
     int boardY = myGM->getBoardSizeY();
     //End, Tutorial 10, steph
 
-    for(int row = 0; row <= boardY; row++)
+    for(int row = 0; row < boardY; row++)
     {
-        for(int col = 0; col <= boardX; col++)
+        for(int col = 0; col < boardX; col++)
         {
-            if(row == 0 || row == boardY || col == 0 || col == boardX)
+            if(row == 0 || row == boardY-1 || col == 0 || col == boardX-1) // If a border
             {
                 MacUILib_printf("%c", '#');
             }
-            else if(row == playerPos.pos->y && col == playerPos.pos->x)
-            {
-                MacUILib_printf("%c",playerPos.symbol);
-            }
-            else if(row == foodPos.pos->y && col == foodPos.pos->x)
-            {
-                MacUILib_printf("%c", foodPos.symbol);
-                //For debugging, iteration 2B
-                myGM->clearInput();
-            }
-            else
-            {
-                MacUILib_printf("%c", ' ');
+            else {
+                bool isPlayer = false; // determines if position has a player
+                for(int i=0; i<playerPos->getSize(); i++) {
+                    if(row == playerPos->getElement(i).pos->y && col == playerPos->getElement(i).pos->x)
+                    {
+                        MacUILib_printf("%c",playerPos->getElement(i).symbol);
+                        isPlayer = true;
+                        break;
+                    }
+                }
+                if(!isPlayer) {
+                    if(row == foodPos.pos->y && col == foodPos.pos->x) {
+                        MacUILib_printf("%c", foodPos.symbol);
+                        //For debugging, iteration 2B
+                        myGM->clearInput();
+                    } else { // if empty
+                    MacUILib_printf("%c", ' ');
+                    }
+                }
             }
         }
         MacUILib_printf("%c", '\n');

@@ -8,11 +8,27 @@ Player::Player(GameMechs* thisGMRef)
 
     // more actions to be included
     //Tutorial 10, steph
-    playerPos.pos->x = mainGameMechsRef -> getBoardSizeX()/2;
-    playerPos.pos->y = mainGameMechsRef -> getBoardSizeY()/2;
-    playerPos.symbol = '@';
+    // playerPos.pos->x = mainGameMechsRef -> getBoardSizeX()/2;
+    // playerPos.pos->y = mainGameMechsRef -> getBoardSizeY()/2;
+    // playerPos.symbol = '@';
     //End Tutorial 10, steph
+    playerPosList = new objPosArrayList();
+    objPos thisPos(mainGameMechsRef -> getBoardSizeX()/2, mainGameMechsRef -> getBoardSizeY()/2, '@');
 
+    //  comment/uncomment for testing snake movement without food, - fran
+    // objPos pos1(11,5,'@');
+    // objPos pos2(12,5,'@');
+    // objPos pos3(13,5,'@');
+    // objPos pos4(14,5,'@');
+    // objPos pos5(15,5,'@');
+    // playerPosList->insertHead(pos5);
+    // playerPosList->insertHead(pos4);
+    // playerPosList->insertHead(pos3);
+    // playerPosList->insertHead(pos2);
+    // playerPosList->insertHead(pos1);
+    // end of testing
+
+    playerPosList->insertHead(thisPos);
 }
 
 
@@ -23,11 +39,10 @@ Player::~Player()
     //leave destructor empty FOR NOW
 }
 
-objPos Player::getPlayerPos() const
+objPosArrayList* Player::getPlayerPos() const
 {
     // return the reference to the playerPos arrray list, Tutorial 10, steph
-    return playerPos;
-
+    return playerPosList;
 }
 
 void Player::updatePlayerDir()
@@ -67,39 +82,43 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
-    // Iteration 1A start, fran
+    objPos playerPos = playerPosList->getHeadElement(); // fran iteration 3
+    static int xPos = playerPos.pos->x, yPos = playerPos.pos->y;
+    
     switch(myDir)
     {
         case UP:
-        playerPos.pos->y--;
+        yPos = playerPos.pos->y - 1;
         break;
 
         case DOWN:
-        playerPos.pos->y++;
+        yPos = playerPos.pos->y + 1;
         break;
 
         case LEFT:
-        playerPos.pos->x--;
+        xPos = playerPos.pos->x - 1;
         break;
 
         case RIGHT:
-        playerPos.pos->x++;
+        xPos = playerPos.pos->x + 1;
         break;
     }
     // Heed to border wraparound
     if(playerPos.pos->x == 0) {
-        playerPos.pos->x = mainGameMechsRef -> getBoardSizeX()-1;
-    }
-    if(playerPos.pos->x == mainGameMechsRef -> getBoardSizeX()) {
-        playerPos.pos->x = 1;
+        xPos = mainGameMechsRef -> getBoardSizeX()-2;
+    } else if(playerPos.pos->x == mainGameMechsRef -> getBoardSizeX()-1) {
+        xPos = 1;
     }
     if(playerPos.pos->y == 0) {
-        playerPos.pos->y = mainGameMechsRef -> getBoardSizeY()-1;
+        yPos = mainGameMechsRef -> getBoardSizeY()-2;
+    } else if(playerPos.pos->y == mainGameMechsRef -> getBoardSizeY()-1) {
+        yPos = 1;
     }
-    if(playerPos.pos->y == mainGameMechsRef -> getBoardSizeY()) {
-        playerPos.pos->y = 1;
+    if(myDir!=STOP) {
+        objPos nextObj(xPos,yPos,'@');
+        playerPosList->insertHead(nextObj);
+        playerPosList->removeTail();
     }
-    // Iteration 1A end, fran
 }
 
 // More methods to be added
