@@ -65,7 +65,8 @@ void RunLogic(void)
     {
         myFood->generateFood(myPlayer->getPlayerPos(),myGM->getBoardSizeX(), myGM->getBoardSizeY());
     }
-    
+    myPlayer->updatePlayerDir(); // Iteration 1A, fran
+    myPlayer->movePlayer(); // Iteration 1A, fran
 }
 
 void DrawScreen(void)
