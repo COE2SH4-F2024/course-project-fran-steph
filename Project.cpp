@@ -29,7 +29,7 @@ int main(void)
 
     Initialize();
 
-    while(myGM->getExitFlagStatus() == false && myGM->getLoseFlagStatus() == false)  
+    while(myGM->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -72,6 +72,7 @@ void RunLogic(void)
     objPosArrayList* playerPos = myPlayer -> getPlayerPos();
     myPlayer->updatePlayerDir(); // Iteration 1A, fran
     myPlayer->movePlayer(myFood); // Iteration 1A, fran
+    //myPlayer->checkSelfCollision();
     
     if(hasInput==0)
     {
@@ -133,19 +134,30 @@ void DrawScreen(void)
         MacUILib_printf("%c", '\n');
     }
 
-    
+    //iteration 3.3, steph
+    if(myGM->getLoseFlagStatus())
+    {
+        MacUILib_printf("Player has Lost");
+        MacUILib_Delay(50000);
+        myGM-> setExitTrue();
+    }
+
     //Iteration 1B, steph
     //For debugging
     MacUILib_printf("%d,%d\n",myFood->getFoodPos().pos->x, myFood->getFoodPos().pos->y);
     MacUILib_printf("%d,%d\n",myPlayer->getPlayerPos()->getHeadElement().pos->x,myPlayer->getPlayerPos()->getHeadElement().pos->y);
     //myGM->incrementScore();
     MacUILib_printf("The Score is: %d\n", myGM->getScore());
+    //MacUILib_printf("%d", myGM->getLoseFlagStatus());
+    //MacUILib_printf("%d", myGM->getExitFlagStatus());
+    /*
     if(myGM->getInput() == 'l')
     {
         MacUILib_printf("Player has Lost");
         MacUILib_Delay(500000);
         myGM-> setLoseFlag();
     }
+    */
     
 }
 

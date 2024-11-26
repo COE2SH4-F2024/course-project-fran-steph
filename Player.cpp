@@ -120,6 +120,16 @@ void Player::movePlayer(Food* thisFood)
     }
     if(myDir!=STOP) 
     {
+        
+        //Steph, interation 3.3
+        for(int i = 1; i < playerPosList->getSize(); i++)
+        {
+            objPos playerBody = playerPosList->getElement(i);
+            if(playerBody.pos->x == playerPos.pos->x && playerBody.pos->y == playerPos.pos->y)
+            {
+                mainGameMechsRef->setLoseFlag();
+            }
+        }
         //Steph, interation 3.2
         if(xPos == xFood && yPos == yFood)
         {
@@ -134,7 +144,8 @@ void Player::movePlayer(Food* thisFood)
             playerPosList->insertHead(nextObj);
             playerPosList->removeTail();
         }
-    }
+    } 
+    
     
 }
 
@@ -159,5 +170,21 @@ void Player::increasePlayerLength()
     
     objPos nextObj(xPos,yPos,'@');
     playerPosList->insertHead(nextObj);
+}
+
+//Iteration 3.3, steph
+bool Player::checkSelfCollision()
+{
+    objPos playerHead = playerPosList->getHeadElement(); 
+    for(int i = 0; i < playerPosList->getSize(); i++)
+    {
+        objPos playerBody = playerPosList->getElement(i);
+        if(playerBody.pos->x == playerHead.pos->x && playerBody.pos->y == playerHead.pos->y)
+        {
+            mainGameMechsRef->setLoseFlag();
+            return mainGameMechsRef->getLoseFlagStatus();
+        }
+    }
+
 }
 */
