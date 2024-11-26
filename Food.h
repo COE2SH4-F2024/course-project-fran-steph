@@ -19,7 +19,7 @@ class Food
         ~Food(); //2/4
         
 
-        void generateFood(objPos blockOff, int xRange, int yRange);
+        void generateFood(objPosArrayList* blockOff, int xRange, int yRange);
         objPos const getFoodPos();
 };
 

@@ -13,26 +13,29 @@ Food::~Food()
 
 }
 
-void Food::generateFood(objPos blockOff, int xRange, int yRange)
+void Food::generateFood(objPosArrayList* blockOff, int xRange, int yRange)
 {
     int posX, posY;
-    int xArr[xRange] = {0};
-    int yArr[yRange] = {0};
+    //int xArr[xRange-2] = {0};
+    //int yArr[yRange-2] = {0};
     srand(time(NULL));
     int count = 0;
-
+    
     while(count == 0)
     {
-        posX = rand() % xRange;
-        posY = rand() % yRange;
-        if((xArr[posX] == 0 || yArr[posY] == 0)\
-        && blockOff.pos->x != posX+1 && blockOff.pos->y != posY+1)
+        posX = rand() % (xRange-2);
+        posY = rand() % (yRange-2);
+        for(int i = 0; i < blockOff->getSize(); i++)
         {
-            xArr[posX]++;
-            yArr[posY]++;
-            foodPos.pos->x = posX+1;
-            foodPos.pos->y = posY+1;
-            count++;
+            if(blockOff->getElement(i).pos->x != posX+1 && blockOff->getElement(i).pos->y != posY+1)
+            {
+                //xArr[posX]++;
+                //yArr[posY]++;
+                foodPos.pos->x = posX+1;
+                foodPos.pos->y = posY+1;
+                //MacUILib_printf("%d,%d",posX+1,posY+1);
+                count++;
+            }
         }
     }
 }

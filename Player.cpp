@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "MacUILib.h"
 
 
 Player::Player(GameMechs* thisGMRef)
@@ -79,13 +80,16 @@ void Player::updatePlayerDir()
 
 }
 
-void Player::movePlayer()
+void Player::movePlayer(Food* thisFood)
 {
     // PPA3 Finite State Machine logic
     objPos playerPos = playerPosList->getHeadElement(); // fran iteration 3
     static int xPos = playerPos.pos->x, yPos = playerPos.pos->y;
+    getFood = thisFood;
+    int xFood = getFood->getFoodPos().pos->x, yFood = getFood->getFoodPos().pos->y; //Steph, interation 3.2
     
-    switch(myDir)
+
+     switch(myDir)
     {
         case UP:
         yPos = playerPos.pos->y - 1;
@@ -114,11 +118,46 @@ void Player::movePlayer()
     } else if(playerPos.pos->y == mainGameMechsRef -> getBoardSizeY()-1) {
         yPos = 1;
     }
-    if(myDir!=STOP) {
-        objPos nextObj(xPos,yPos,'@');
-        playerPosList->insertHead(nextObj);
-        playerPosList->removeTail();
+    if(myDir!=STOP) 
+    {
+        //Steph, interation 3.2
+        if(xPos == xFood && yPos == yFood)
+        {
+            objPos nextObj(xPos,yPos,'@');
+            playerPosList->insertHead(nextObj);
+            getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
+            mainGameMechsRef->incrementScore();
+        }
+        else
+        {
+            objPos nextObj(xPos,yPos,'@');
+            playerPosList->insertHead(nextObj);
+            playerPosList->removeTail();
+        }
     }
+    
 }
 
 // More methods to be added
+/*
+bool Player::checkFoodConsumption()
+{
+    objPos playerPos = playerPosList->getHeadElement(); // fran iteration 3
+    static int xPos = playerPos.pos->x, yPos = playerPos.pos->y;
+    static int xFood = getFood.getFoodPos().pos->x, yFood = getFood.getFoodPos().pos->y; //Steph, interation 3.2
+
+    if(xPos == xFood && yPos == yFood)
+        {
+            return true;
+        }
+}
+
+void Player::increasePlayerLength()
+{
+    objPos playerPos = playerPosList->getHeadElement(); // fran iteration 3
+    static int xPos = playerPos.pos->x, yPos = playerPos.pos->y;
+    
+    objPos nextObj(xPos,yPos,'@');
+    playerPosList->insertHead(nextObj);
+}
+*/

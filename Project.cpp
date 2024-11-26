@@ -12,6 +12,8 @@ Player *myPlayer; //Global pointer meant to instantiate a player object on the h
 GameMechs *myGM; //Tutorial 10, steph, iteration 1B, steph
 Food *myFood; //Iteration 2B, steph
 
+int hasInput = 0;
+
 
 void Initialize(void);
 void GetInput(void);
@@ -48,7 +50,6 @@ void Initialize(void)
     myGM = new GameMechs(); //Tutorial 10, steph, iteration 1B, steph
     myPlayer = new Player(myGM); //Tutorial 10, steph
     myFood = new Food(); //iteration 2B, steph
-    
 }
 
 
@@ -56,17 +57,31 @@ void GetInput(void)
 {
     //Iteration 1B, steph
     myGM->collectAsyncInput();
+    
 }
 
 void RunLogic(void)
 {
     //Iteration 2B, for debugging
+    /*
     if(myGM->getInput()=='c')
     {
         myFood->generateFood(myPlayer->getPlayerPos()->getHeadElement(),myGM->getBoardSizeX(), myGM->getBoardSizeY()); // edited by fran Iteration 3
     }
+    */
+    objPosArrayList* playerPos = myPlayer -> getPlayerPos();
     myPlayer->updatePlayerDir(); // Iteration 1A, fran
-    myPlayer->movePlayer(); // Iteration 1A, fran
+    myPlayer->movePlayer(myFood); // Iteration 1A, fran
+    
+    if(hasInput==0)
+    {
+        if(myGM->getInput()!='\0')
+        {
+            myFood->generateFood(playerPos,myGM->getBoardSizeX(), myGM->getBoardSizeY()); // edited by fran Iteration 3
+            hasInput++;
+        }
+    }
+     
 }
 
 void DrawScreen(void)
@@ -88,9 +103,11 @@ void DrawScreen(void)
             {
                 MacUILib_printf("%c", '#');
             }
-            else {
+            else 
+            {
                 bool isPlayer = false; // determines if position has a player
-                for(int i=0; i<playerPos->getSize(); i++) {
+                for(int i=0; i<playerPos->getSize(); i++) 
+                {
                     if(row == playerPos->getElement(i).pos->y && col == playerPos->getElement(i).pos->x)
                     {
                         MacUILib_printf("%c",playerPos->getElement(i).symbol);
@@ -98,12 +115,16 @@ void DrawScreen(void)
                         break;
                     }
                 }
-                if(!isPlayer) {
-                    if(row == foodPos.pos->y && col == foodPos.pos->x) {
+                if(!isPlayer) 
+                {
+                    if(row == foodPos.pos->y && col == foodPos.pos->x) 
+                    {
                         MacUILib_printf("%c", foodPos.symbol);
                         //For debugging, iteration 2B
                         myGM->clearInput();
-                    } else { // if empty
+                    } 
+                    else 
+                    { // if empty
                     MacUILib_printf("%c", ' ');
                     }
                 }
@@ -115,7 +136,9 @@ void DrawScreen(void)
     
     //Iteration 1B, steph
     //For debugging
-    myGM->incrementScore();
+    MacUILib_printf("%d,%d\n",myFood->getFoodPos().pos->x, myFood->getFoodPos().pos->y);
+    MacUILib_printf("%d,%d\n",myPlayer->getPlayerPos()->getHeadElement().pos->x,myPlayer->getPlayerPos()->getHeadElement().pos->y);
+    //myGM->incrementScore();
     MacUILib_printf("The Score is: %d\n", myGM->getScore());
     if(myGM->getInput() == 'l')
     {
@@ -123,7 +146,7 @@ void DrawScreen(void)
         MacUILib_Delay(500000);
         myGM-> setLoseFlag();
     }
-
+    
 }
 
 void LoopDelay(void)
