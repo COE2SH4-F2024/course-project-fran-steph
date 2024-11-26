@@ -137,7 +137,7 @@ void DrawScreen(void)
     //iteration 3.3, steph
     if(myGM->getLoseFlagStatus())
     {
-        MacUILib_printf("Player has Lost");
+        MacUILib_printf("Player has Lost\n");
         MacUILib_Delay(50000);
         myGM-> setExitTrue();
     }
