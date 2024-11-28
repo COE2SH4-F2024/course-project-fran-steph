@@ -13,17 +13,14 @@ class objPos
     public:
         Pos* pos;        
         char symbol;
-        //char** gameBoard;
 
-        objPos(); //Default Constructor 1/4
-        objPos(int xPos, int yPos, char sym); //Specialized Contsructor
+        objPos(); 
+        objPos(int xPos, int yPos, char sym); 
         
-        // Respect the rule of six / minimum four
-        // [TODO] Implement the missing special member functions to meet the minimum four rule
-        //iteration 0
-        objPos(const objPos &obj); //Copy Constructor 2/4, steph
-        objPos& operator=(const objPos &obj); //Copy Assignment Operator 3/4, steph
-        ~objPos(); //Destructor 4/4, steph
+        
+        objPos(const objPos &obj); 
+        objPos& operator=(const objPos &obj); 
+        ~objPos(); 
 
         void setObjPos(objPos o);    
         void setObjPos(int xPos, int yPos, char sym); 

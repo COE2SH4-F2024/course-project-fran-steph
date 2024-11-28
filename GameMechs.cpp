@@ -31,8 +31,7 @@ GameMechs::GameMechs(int boardX, int boardY)
 // do you need a destructor?
 GameMechs::~GameMechs()
 {
-    //Nothing on the heap (no new), Tutoial 10, steph
-    //Destructor empty for now, Tutorial 10, steph
+    
 }
 
 bool GameMechs::getExitFlagStatus() const
@@ -48,21 +47,6 @@ bool GameMechs::getLoseFlagStatus() const
 
 char GameMechs::getInput()
 {
-    //Commented out for tutorial 11, steph
-    /*
-    //Tutorial 10, steph
-    if(MacUILib_hasChar())
-    {
-        input = MacUILib_getChar();
-    }
-    //End Tutorial 10, steph
-
-    //Iteration 1B, steph
-    if(input==' ')
-    {
-        setExitTrue();
-    }
-    */
 
     return input;
 }

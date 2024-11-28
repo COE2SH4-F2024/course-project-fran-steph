@@ -1,5 +1,4 @@
 #include "Food.h"
-#include "MacUILib.h"
 #include "GameMechs.h"
 
 //Iteration 2B, steph
@@ -16,8 +15,6 @@ Food::~Food()
 void Food::generateFood(objPosArrayList* blockOff, int xRange, int yRange)
 {
     int posX, posY;
-    //int xArr[xRange-2] = {0};
-    //int yArr[yRange-2] = {0};
     srand(time(NULL));
     int count = 0;
     
@@ -29,11 +26,8 @@ void Food::generateFood(objPosArrayList* blockOff, int xRange, int yRange)
         {
             if(blockOff->getElement(i).pos->x != posX+1 && blockOff->getElement(i).pos->y != posY+1)
             {
-                //xArr[posX]++;
-                //yArr[posY]++;
                 foodPos.pos->x = posX+1;
                 foodPos.pos->y = posY+1;
-                //MacUILib_printf("%d,%d",posX+1,posY+1);
                 count++;
             }
         }

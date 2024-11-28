@@ -15,9 +15,8 @@ class Food
         objPos foodPos;
     
     public:
-        Food(); //1/4
-        ~Food(); //2/4
-        
+        Food(); 
+        ~Food();
 
         void generateFood(objPosArrayList* blockOff, int xRange, int yRange);
         objPos const getFoodPos();

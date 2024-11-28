@@ -7,12 +7,6 @@ Player::Player(GameMechs* thisGMRef)
     mainGameMechsRef = thisGMRef; //Tutorial 10, steph
     myDir = STOP; //Tutorial 10, steph
 
-    // more actions to be included
-    //Tutorial 10, steph
-    // playerPos.pos->x = mainGameMechsRef -> getBoardSizeX()/2;
-    // playerPos.pos->y = mainGameMechsRef -> getBoardSizeY()/2;
-    // playerPos.symbol = '@';
-    //End Tutorial 10, steph
     playerPosList = new objPosArrayList();
     objPos thisPos(mainGameMechsRef -> getBoardSizeX()/2, mainGameMechsRef -> getBoardSizeY()/2, '@');
 
@@ -35,9 +29,7 @@ Player::Player(GameMechs* thisGMRef)
 
 Player::~Player()
 {
-    // delete any heap members here
-    //no keyword 'new' in the constructor
-    //leave destructor empty FOR NOW
+    
 }
 
 objPosArrayList* Player::getPlayerPos() const
@@ -50,7 +42,6 @@ void Player::updatePlayerDir()
 {
     char input = mainGameMechsRef -> getInput(); //Tutorial 10, steph
         // PPA3 input processing logic
-        //Dr. Athars code, Tutorial 10, steph
         switch(input)
         {   
             case 's':
@@ -149,42 +140,3 @@ void Player::movePlayer(Food* thisFood)
     
 }
 
-// More methods to be added
-/*
-bool Player::checkFoodConsumption()
-{
-    objPos playerPos = playerPosList->getHeadElement(); // fran iteration 3
-    static int xPos = playerPos.pos->x, yPos = playerPos.pos->y;
-    static int xFood = getFood.getFoodPos().pos->x, yFood = getFood.getFoodPos().pos->y; //Steph, interation 3.2
-
-    if(xPos == xFood && yPos == yFood)
-        {
-            return true;
-        }
-}
-
-void Player::increasePlayerLength()
-{
-    objPos playerPos = playerPosList->getHeadElement(); // fran iteration 3
-    static int xPos = playerPos.pos->x, yPos = playerPos.pos->y;
-    
-    objPos nextObj(xPos,yPos,'@');
-    playerPosList->insertHead(nextObj);
-}
-
-//Iteration 3.3, steph
-bool Player::checkSelfCollision()
-{
-    objPos playerHead = playerPosList->getHeadElement(); 
-    for(int i = 0; i < playerPosList->getSize(); i++)
-    {
-        objPos playerBody = playerPosList->getElement(i);
-        if(playerBody.pos->x == playerHead.pos->x && playerBody.pos->y == playerHead.pos->y)
-        {
-            mainGameMechsRef->setLoseFlag();
-            return mainGameMechsRef->getLoseFlagStatus();
-        }
-    }
-
-}
-*/
