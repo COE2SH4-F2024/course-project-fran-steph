@@ -4,8 +4,8 @@
 
 Player::Player(GameMechs* thisGMRef)
 {
-    mainGameMechsRef = thisGMRef; //Tutorial 10, steph
-    myDir = STOP; //Tutorial 10, steph
+    mainGameMechsRef = thisGMRef; 
+    myDir = STOP; 
 
     playerPosList = new objPosArrayList();
     objPos thisPos(mainGameMechsRef -> getBoardSizeX()/2, mainGameMechsRef -> getBoardSizeY()/2, '@');
@@ -40,7 +40,7 @@ objPosArrayList* Player::getPlayerPos() const
 
 void Player::updatePlayerDir()
 {
-    char input = mainGameMechsRef -> getInput(); //Tutorial 10, steph
+    char input = mainGameMechsRef -> getInput(); 
         // PPA3 input processing logic
         switch(input)
         {   
@@ -77,10 +77,19 @@ void Player::movePlayer(Food* thisFood)
     objPos playerPos = playerPosList->getHeadElement(); // fran iteration 3
     static int xPos = playerPos.pos->x, yPos = playerPos.pos->y;
     getFood = thisFood;
-    int xFood = getFood->getFoodPos().pos->x, yFood = getFood->getFoodPos().pos->y; //Steph, interation 3.2
-    
+    int xFood = getFood->getFoodPos().pos->x, yFood = getFood->getFoodPos().pos->y;
+    //int foodSize = thisFood->getSize();
+    //int xFood[foodSize];
+    //int yFood[foodSize];
+    /*
+    for(int i = 0; i < foodSize; i++)
+    {
+        xFood[i] = thisFood->getFoodBucket().getElement(i).pos->x;
+        yFood[i] = thisFood->getFoodBucket().getElement(i).pos->y;
+    }
+    */
 
-     switch(myDir)
+    switch(myDir)
     {
         case UP:
         yPos = playerPos.pos->y - 1;
@@ -112,7 +121,7 @@ void Player::movePlayer(Food* thisFood)
     if(myDir!=STOP) 
     {
         
-        //Steph, interation 3.3
+        //Checks if 'snake' has encoutered itself and sets loseFlag if it has
         for(int i = 1; i < playerPosList->getSize(); i++)
         {
             objPos playerBody = playerPosList->getElement(i);
@@ -121,7 +130,10 @@ void Player::movePlayer(Food* thisFood)
                 mainGameMechsRef->setLoseFlag();
             }
         }
-        //Steph, interation 3.2
+        
+        //for(int i = 0; i < foodSize; i++)
+        //{
+            //Detects if player has encoutered food and increments score and increase size if true
         if(xPos == xFood && yPos == yFood)
         {
             objPos nextObj(xPos,yPos,'@');
@@ -129,12 +141,15 @@ void Player::movePlayer(Food* thisFood)
             getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
             mainGameMechsRef->incrementScore();
         }
+        
+        //Keeps player moving while mainting length
         else
         {
             objPos nextObj(xPos,yPos,'@');
             playerPosList->insertHead(nextObj);
             playerPosList->removeTail();
         }
+        //}
     } 
     
     

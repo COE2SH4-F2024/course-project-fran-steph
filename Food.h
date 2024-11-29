@@ -13,13 +13,19 @@ class Food
 {
     private:
         objPos foodPos;
+        objPosArrayList* foodBucket;
+        int size;
     
     public:
         Food(); 
         ~Food();
+        Food(const Food& myFood); 
+        Food& operator=(const Food& myFood); 
 
         void generateFood(objPosArrayList* blockOff, int xRange, int yRange);
+        objPosArrayList const getFoodBucket();
         objPos const getFoodPos();
+        int getSize();
 };
 
 

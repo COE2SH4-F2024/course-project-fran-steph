@@ -21,9 +21,12 @@ class GameMechs
         int boardSizeY;
 
     public:
-        GameMechs();
-        GameMechs(int boardX, int boardY);
-        ~GameMechs(); 
+        GameMechs(); 
+        GameMechs(int boardX, int boardY); 
+        ~GameMechs();
+        GameMechs(const GameMechs& myGame); 
+        GameMechs& operator=(const GameMechs& myGame); 
+
         
         bool getExitFlagStatus() const; 
         void setExitTrue();

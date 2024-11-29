@@ -17,7 +17,7 @@ objPos::objPos(int xPos, int yPos, char sym)
 }
 
 
-objPos::objPos(const objPos &obj) //Copy Constructor, steph
+objPos::objPos(const objPos &obj) //Copy Constructor
 {
     pos = new Pos;
     pos->x = obj.pos->x;
@@ -25,7 +25,7 @@ objPos::objPos(const objPos &obj) //Copy Constructor, steph
     symbol = obj.symbol;
 }
 
-objPos& objPos::operator=(const objPos &obj) //Copy Assignment Operator, steph
+objPos& objPos::operator=(const objPos &obj) //Copy Assignment Operator
 {
     if(this != &obj)
     {
@@ -36,7 +36,7 @@ objPos& objPos::operator=(const objPos &obj) //Copy Assignment Operator, steph
     return *this;
 }
 
-objPos::~objPos() //Destructor, steph
+objPos::~objPos() //Destructor
 {
     delete pos;
 }

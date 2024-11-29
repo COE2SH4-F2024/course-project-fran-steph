@@ -1,10 +1,9 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
 
-//GameMechs, steph
+//Default constructor
 GameMechs::GameMechs()
 {
-    //From tutorial 10, steph
     input = 0;
     exitFlag =false;
     loseFlag = false;
@@ -12,12 +11,13 @@ GameMechs::GameMechs()
 
     boardSizeX = 20;
     boardSizeY = 10;
-    //end tutorial 10, steph
+    
 }
 
+
+//Specialized constructor
 GameMechs::GameMechs(int boardX, int boardY)
 {
-    //From tutorial 10, steph
     input = 0;
     exitFlag =false;
     loseFlag = false;
@@ -25,23 +25,48 @@ GameMechs::GameMechs(int boardX, int boardY)
 
     boardSizeX = boardX;
     boardSizeY = boardY;
-    //end tutorial 10, steph
 }
 
-// do you need a destructor?
+//Destructor
 GameMechs::~GameMechs()
 {
     
 }
 
+//Copy constructor
+GameMechs::GameMechs(const GameMechs& myGame)
+{
+    input = myGame.input;
+    exitFlag = myGame.exitFlag;
+    loseFlag = myGame.loseFlag;
+    score = myGame.score;
+    boardSizeX = myGame.boardSizeX;
+    boardSizeY = myGame.boardSizeY;
+}
+
+//Copy assignment constructor
+GameMechs& GameMechs::operator=(const GameMechs& myGame)
+{
+    if(this != &myGame)
+    {
+        this->input = myGame.input;
+        this->exitFlag = myGame.exitFlag;
+        this->loseFlag = myGame.loseFlag;
+        this->score = myGame.score;
+        this->boardSizeX = myGame.boardSizeX;
+        this->boardSizeY = myGame.boardSizeY;
+    }
+    return *this;
+}
+
 bool GameMechs::getExitFlagStatus() const
 {
-    return exitFlag; //Tutorial 10, steph
+    return exitFlag;
 }
 
 bool GameMechs::getLoseFlagStatus() const
 {
-    return loseFlag; //Iteration 1B, steph
+    return loseFlag; 
 }
     
 
@@ -63,18 +88,18 @@ void GameMechs::incrementScore()
 
 int GameMechs::getBoardSizeX() const
 {
-    return boardSizeX; //Tutorial 10, steph
+    return boardSizeX; 
 }
 
 int GameMechs::getBoardSizeY() const
 {
-    return boardSizeY; //Tutorial 10, steph
+    return boardSizeY; 
 }
 
 
 void GameMechs::setExitTrue()
 {
-    exitFlag = true; //Iteration 1B, steph
+    exitFlag = true; 
 }
 
 void GameMechs::setLoseFlag()
@@ -84,18 +109,16 @@ void GameMechs::setLoseFlag()
 
 void GameMechs::setInput(char this_input)
 {
-    this->input = this_input; //Iteration 1B, steph
+    this->input = this_input; 
 }
 
 void GameMechs::clearInput()
 {
-    input = 0; //NULL, Iteration 1B, steph
+    input = 0; 
 }
 
-// More methods should be added here
 void GameMechs::collectAsyncInput()
 {
-    //Tutorial 11, steph
     if(MacUILib_hasChar())
     {
         input = MacUILib_getChar();
