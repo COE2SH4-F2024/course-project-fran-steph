@@ -1,6 +1,6 @@
 #include "objPos.h"
 
-objPos::objPos()
+objPos::objPos() // Default Constructor
 {
     pos = new Pos;
     pos->x = 0;

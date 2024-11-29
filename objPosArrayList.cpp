@@ -4,24 +4,25 @@
 // Paste your Tested implementation here.
 // Paste your Tested implementation here.
 
-// Iteration 2A, fran, from test suite - all test cases passes
-objPosArrayList::objPosArrayList()
+// Iteration 2a, fran
+objPosArrayList::objPosArrayList() // Constructor
 {
     listSize = 0;
     arrayCapacity = ARRAY_MAX_CAP;
     aList = new objPos[ARRAY_MAX_CAP]; 
 }
 
-objPosArrayList::~objPosArrayList()
+objPosArrayList::~objPosArrayList() // Destructor to remove  the heap
 {
     delete[] aList; 
 }
 
-int objPosArrayList::getSize() const
+int objPosArrayList::getSize() const 
 {
     return listSize;
 }
 
+// If the list is not full, insert element thisPos at the front of the list and increase listSize
 void objPosArrayList::insertHead(objPos thisPos)
 {
     if(listSize == arrayCapacity) {
@@ -34,6 +35,7 @@ void objPosArrayList::insertHead(objPos thisPos)
     listSize++;
 }
 
+// If the list is not full, insert element thisPos at the end of the list and increase listSize
 void objPosArrayList::insertTail(objPos thisPos)
 {
     if(listSize == arrayCapacity) {
@@ -43,6 +45,7 @@ void objPosArrayList::insertTail(objPos thisPos)
     listSize++;
 }
 
+// If list is not empty, remove first element in list and decrease listSize
 void objPosArrayList::removeHead()
 {
     if(listSize == 0) {
@@ -54,6 +57,7 @@ void objPosArrayList::removeHead()
     listSize--;
 }
 
+// If list is not empty, remove last element in list and decrease listSize
 void objPosArrayList::removeTail()
 {
     if(listSize == 0) {
