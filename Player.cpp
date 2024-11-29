@@ -63,7 +63,10 @@ void Player::movePlayer(Food* thisFood)
 {
     // PPA3 Finite State Machine logic
     objPos playerPos = playerPosList->getHeadElement(); // returns the head of the snake xPos and yPos
-    int xPos = playerPos.pos->x, yPos = playerPos.pos->y;
+
+    // Variables for calculating next position
+    int xPos = playerPos.pos->x;
+    int yPos = playerPos.pos->y;
 
     getFood = thisFood;
     int xFood = getFood->getFoodPos().pos->x, yFood = getFood->getFoodPos().pos->y; //Steph, interation 3.2
