@@ -74,7 +74,7 @@ void Player::movePlayer(Food* thisFood)
         case UP:
         yPos--;
         // Heed Wraparound
-        if(playerPos.pos->y == 1) {
+        if(yPos == 0) {
         yPos = mainGameMechsRef -> getBoardSizeY()-2;
         }
         break;
@@ -82,7 +82,7 @@ void Player::movePlayer(Food* thisFood)
         case DOWN:
         yPos++;
         // Heed Wraparound
-        if(playerPos.pos->y == mainGameMechsRef -> getBoardSizeY()-2) {
+        if(yPos == mainGameMechsRef -> getBoardSizeY()-1) {
         yPos = 1;
         }
         break;
@@ -90,7 +90,7 @@ void Player::movePlayer(Food* thisFood)
         case LEFT:
         xPos--;
         // Heed Wraparound
-        if(playerPos.pos->x == 1) {
+        if(xPos == 0) {
         xPos = mainGameMechsRef -> getBoardSizeX()-2;
         }
         break;
@@ -98,7 +98,7 @@ void Player::movePlayer(Food* thisFood)
         case RIGHT:
         xPos++;
         // Heed Wraparound
-        if(playerPos.pos->x == mainGameMechsRef -> getBoardSizeX()-2) {
+        if(xPos == mainGameMechsRef -> getBoardSizeX()-1) {
         xPos = 1;
         }
         break;
