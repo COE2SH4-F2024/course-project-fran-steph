@@ -47,31 +47,31 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    //Initialing game characteristiccs, food, player and mechanics
-    myGM = new GameMechs(); 
-    myPlayer = new Player(myGM); 
-    myFood = new Food(); 
+    // Instantiates player objects on the heap
+    myGM = new GameMechs(); //Tutorial 10, steph, iteration 1B, steph
+    myPlayer = new Player(myGM); //Tutorial 10, steph
+    myFood = new Food(); //iteration 2B, steph
 }
 
 void GetInput(void)
 {
     //Collects asyncronous input from user
     myGM->collectAsyncInput();
-    
 }
 
 void RunLogic(void)
 {
+    // Update player direction and move snake
     objPosArrayList* playerPos = myPlayer -> getPlayerPos();
-    myPlayer->updatePlayerDir(); // Iteration 1A, fran
-    myPlayer->movePlayer(myFood); // Iteration 1A, fran
+    myPlayer->updatePlayerDir(); // iteration 1a, fran
+    myPlayer->movePlayer(myFood); // iteration 1a, fran
     
     //Generates the first food item on the gameboard after user begins to move player
     if(hasInput==0)
     {
         if(myGM->getInput()!='\0')
         {
-            myFood->generateFood(playerPos,myGM->getBoardSizeX(), myGM->getBoardSizeY()); // edited by fran Iteration 3
+            myFood->generateFood(playerPos,myGM->getBoardSizeX(), myGM->getBoardSizeY()); // iteration 1.3, fran
             hasInput++;
         }
     }
@@ -82,29 +82,32 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
 
-    objPosArrayList* playerPos = myPlayer -> getPlayerPos(); // edited by fran iteration 3
+    // Get board size, food, and player position 
+    objPosArrayList* playerPos = myPlayer -> getPlayerPos(); // iteration 3.1, fran
     //objPosArrayList foodPos = myFood->getFoodBucket();
-    objPos foodPos = myFood->getFoodPos();
+    objPos foodPos = myFood -> getFoodPos();
     int boardX = myGM->getBoardSizeX();
     int boardY = myGM->getBoardSizeY();
 
-    //Draws gameboard, player, and food
+    // Iterates through each position on the board
     for(int row = 0; row < boardY; row++)
     {
         for(int col = 0; col < boardX; col++)
         {
-            //Draws game border
-            if(row == 0 || row == boardY-1 || col == 0 || col == boardX-1) // If a border
+            // If on the edge of the bord, print border ('#')
+            if(row == 0 || row == boardY-1 || col == 0 || col == boardX-1) 
             {
                 MacUILib_printf("%c", '#');
             }
             //Draws everything else inside the border
             else 
             {
-                bool isPlayer = false; // determines if position has a player
+                bool isPlayer = false; 
+                
+                // Iterates through each element in snake body
                 for(int i=0; i<playerPos->getSize(); i++) 
                 {
-                    //Draws player at it's location
+                    // If position has a snake element, draws player at it's location
                     if(row == playerPos->getElement(i).pos->y && col == playerPos->getElement(i).pos->x)
                     {
                         MacUILib_printf("%c",playerPos->getElement(i).symbol);
@@ -112,17 +115,19 @@ void DrawScreen(void)
                         break;
                     }
                 }
-                //Draws food where player isn's
+
+                // If position is not occupied by snake, draws food where player isn't
                 if(!isPlayer) 
                 {
+                    // If position is food
                     //for(int i = 0; myFood->getSize(); i++)
                     //{
                         if(row == foodPos.pos->y && col == foodPos.pos->x) 
                         {
                             MacUILib_printf("%c", foodPos.symbol);
                         } 
-                        else 
-                        { // if empty
+                        else // if empty
+                        { 
                         MacUILib_printf("%c", ' ');
                         }
                     //}
@@ -142,7 +147,8 @@ void DrawScreen(void)
         MacUILib_Delay(50000);
         myGM-> setExitTrue();
     }
-    
+
+ 
 }
 
 void LoopDelay(void)
@@ -153,7 +159,8 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    delete myPlayer; 
+    // Removes objects off the heap
+    delete myPlayer;
     delete myGM; 
     delete myFood; 
 
