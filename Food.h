@@ -23,7 +23,7 @@ class Food
         Food& operator=(const Food& myFood); 
 
         void generateFood(objPosArrayList* blockOff, int xRange, int yRange);
-        objPosArrayList const getFoodBucket();
+        objPosArrayList* getFoodBucket();
         objPos const getFoodPos();
         int getSize();
 };

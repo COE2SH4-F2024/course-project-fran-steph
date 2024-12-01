@@ -25,7 +25,7 @@ class Player
 
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
-        Food* getFood; //steph, iteration 3.2
+        Food* getFood; 
 
 };
 

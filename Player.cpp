@@ -67,18 +67,20 @@ void Player::movePlayer(Food* thisFood)
     // Variables for calculating next position
     int xPos = playerPos.pos->x;
     int yPos = playerPos.pos->y;
-
+    
     getFood = thisFood;
-    //int xFood = getFood->getFoodPos().pos->x, yFood = getFood->getFoodPos().pos->y; // UNCOMMENT FOR NORMAL
+    
     int foodSize = thisFood->getSize();
     int xFood[foodSize];
     int yFood[foodSize];
-    
+
+    //Initializes x and y food coordinates to xFood and yFood lists
     for(int i = 0; i < foodSize; i++)
     {
-        xFood[i] = thisFood->getFoodPos().pos->x; // Changed getFoodBucket to getFoodPos
-        yFood[i] = thisFood->getFoodPos().pos->y; // Changed getFoodBucket to getFoodPos
+        xFood[i] = thisFood->getFoodBucket()->getElement(i).pos->x; 
+        yFood[i] = thisFood->getFoodBucket()->getElement(i).pos->y; 
     }
+    
     
     // Increments new x and y position based on direction
     switch(myDir)
@@ -138,11 +140,29 @@ void Player::movePlayer(Food* thisFood)
         for(int i=0; i < foodSize; i++) {
             if(xPos == xFood[i] && yPos == yFood[i])
             {
-                playerPosList->insertHead(nextObj);
-                getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
-                mainGameMechsRef->incrementScore();
-                isFood = true;
-                break;
+                //Checks for normal food and applies normal food rewards
+                if(getFood->getFoodBucket()->getElement(i).symbol == '*')
+                {
+                    playerPosList->insertHead(nextObj);
+                    getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
+                    mainGameMechsRef->incrementScore();
+                    isFood = true;
+                    break;
+                }
+                //Checks for special food and applies special food rewards
+                else
+                {
+                    playerPosList->insertHead(nextObj);
+                    //Removes 2 tails
+                    playerPosList->removeTail();
+                    playerPosList->removeTail();
+                    getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
+                    mainGameMechsRef->incrementScore();
+                    //Doubles the score
+                    mainGameMechsRef->incrementScore();
+                    isFood = true;
+                    break;
+                }
             }
         }
         //Keeps player moving while mainting length

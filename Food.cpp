@@ -1,27 +1,18 @@
 #include "Food.h"
 #include "GameMechs.h"
 
-//Iteration 2B, steph
+
 Food::Food()
 {
-    foodPos.setObjPos(-10,-10,'$'); // added lines -fran
-    foodBucket = new objPosArrayList(); // added lines -fran
-    foodBucket->insertHead(foodPos); // added lines -fran
+    foodPos.setObjPos(-10,-10,'$'); 
+    foodBucket = new objPosArrayList(); 
+    foodBucket->insertHead(foodPos); 
     foodPos.setObjPos(-10,-10,'*');
-    for(int i=0; i<4; i++) { // added lines -fran
-        foodBucket->insertHead(foodPos); // added lines -fran
-    } // added lines -fran
-    size = 5; // added lines -fran
-    /*
     size = 5;
-    foodBucket = new objPosArrayList[size];
-    for(int i = 0; i < size-1; i++)
-    {
-        foodBucket[i].insertTail(foodPos);
+    for(int i=0; i<size-1; i++) 
+    { 
+        foodBucket->insertHead(foodPos); 
     }
-    foodPos.setObjPos(-10,-10,'$');
-    foodBucket[size-1].insertTail(foodPos);
-    */
 }
 
 Food::~Food()
@@ -32,14 +23,14 @@ Food::~Food()
 Food::Food(const Food& myFood)
 {
     foodPos = myFood.foodPos;
-    foodBucket = new objPosArrayList(); // added this? - fran
-    // /*
+    foodBucket = new objPosArrayList(); 
+    
     for(int i = 0; i < myFood.foodBucket->getSize(); i++)
     {
-        foodBucket->insertTail(myFood.foodBucket->getElement(i));
+        foodBucket->insertHead(myFood.foodBucket->getElement(i)); 
     }
     size = myFood.size;
-    // */
+    
 }
 
 Food& Food::operator=(const Food& myFood)
@@ -48,11 +39,11 @@ Food& Food::operator=(const Food& myFood)
     {
         this->foodPos = myFood.foodPos;
         // delete foodBucket;
-        // foodBucket = new objPosArrayList();
+        this->foodBucket = new objPosArrayList(); 
         // /*
-        for(int i = 0; i < myFood.foodBucket->getSize(); i++) // changed 5 to myFood.foodBucket->getSize()
+        for(int i = 0; i < myFood.foodBucket->getSize(); i++) 
         {
-            this->foodBucket->insertTail(myFood.foodBucket->getElement(i));
+            this->foodBucket->insertHead(myFood.foodBucket->getElement(i));
         }
         // */
     }
@@ -64,58 +55,99 @@ void Food::generateFood(objPosArrayList* blockOff, int xRange, int yRange)
     
     int posX, posY;
     srand(time(NULL));
+    int count = 0;
 
-    for(int i=0; i<foodBucket->getSize(); i++) {
+    //Generates normal food
+    for(int i = 0; i < foodBucket->getSize()-2; i++) 
+    {
         bool positionFound = false;
 
-        while(!positionFound) {
+        //Repeatedly generates food until a free space (not a playe or other food) is found
+        while(!positionFound) 
+        {
             posX = rand() % (xRange-2);
             posY = rand() % (yRange-2);
 
             bool flag = false;
-            for(int j = 0; j < blockOff->getSize(); j++) {
-                if((posX == blockOff->getElement(j).pos->x) && (posY == blockOff->getElement(j).pos->y)) {
+            //Checks if random coordinates coorespond to player
+            for(int j = 0; j < blockOff->getSize(); j++) 
+            {
+                if((posX+1 == blockOff->getElement(j).pos->x) && (posY+1 == blockOff->getElement(j).pos->y)) 
+                {
                     flag = true;
                     break;
                 }
             }
 
-            for(int j=0; j < foodBucket->getSize(); j++) {
-                if((posX == foodBucket->getElement(j).pos->x) && (posY == foodBucket->getElement(j).pos->y)) {
+            //Checks if random coordinates coorespond to other food
+            for(int j=0; j < foodBucket->getSize(); j++) 
+            {
+                if((posX+1 == foodBucket->getElement(j).pos->x) && (posY+1 == foodBucket->getElement(j).pos->y)) 
+                {
                     flag = true;
                     break;
                 }
             }
-            if(!flag) {
-                foodBucket->getElement(i).pos->x = posX;
-                foodBucket->getElement(i).pos->y = posY;
+
+            //Generates food if all conditions are met
+            if(!flag) 
+            {
+                foodPos.setObjPos(posX+1,posY+1,'*');
+                foodBucket->removeTail();
+                foodBucket->insertHead(foodPos);
                 positionFound = true;
             }   
         }
     }
-    // int count = 0;
-    // while(count == 0)
-    // {
-    //     posX = rand() % (xRange-2);
-    //     posY = rand() % (yRange-2);
-    //     for(int i = 0; i < blockOff->getSize(); i++)
-    //     {
-    //         if(blockOff->getElement(i).pos->x != posX+1 && blockOff->getElement(i).pos->y != posY+1)
-    //         {
-    //             foodBucket->getElement(i).pos->x = posX + 1;
-    //             foodBucket->getElement(i).pos->y = posY + 1;
-    //             //foodPos.pos->x = posX+1; // UNCOMMENT FOR NORMAL PROJECT TO WORK
-    //             //foodPos.pos->y = posY+1; // UNCOMMENT FOR NORMAL PROJECT TO WORK
-    //             count++;
-    //         }
-    //     }
-    // }
+
+    //Generates special food
+    for(int i = 0; i < 2; i++) 
+    {
+        bool positionFound = false;
+
+        //Repeatedly generates food until a free space (not a playe or other food) is found
+        while(!positionFound) 
+        {
+            posX = rand() % (xRange-2);
+            posY = rand() % (yRange-2);
+
+            //Checks if random coordinates coorespond to player
+            bool flag = false;
+            for(int j = 0; j < blockOff->getSize(); j++) 
+            {
+                if((posX+1 == blockOff->getElement(j).pos->x) && (posY+1 == blockOff->getElement(j).pos->y)) 
+                {
+                    flag = true;
+                    break;
+                }
+            }
+
+            //Checks if random coordinates coorespond to other food
+            for(int j=0; j < foodBucket->getSize(); j++) 
+            {
+                if((posX+1 == foodBucket->getElement(j).pos->x) && (posY+1 == foodBucket->getElement(j).pos->y)) 
+                {
+                    flag = true;
+                    break;
+                }
+            }
+
+            //Generates food if all conditions are met
+            if(!flag) 
+            {
+                foodPos.setObjPos(posX+1,posY+1,'$');
+                foodBucket->removeTail();
+                foodBucket->insertHead(foodPos);
+                positionFound = true;
+            }   
+        }
+    }
 }
 
 
-objPosArrayList const Food::getFoodBucket()
+objPosArrayList* Food::getFoodBucket()
 {
-    return *foodBucket;
+    return foodBucket;
 }
 
 objPos const Food::getFoodPos()

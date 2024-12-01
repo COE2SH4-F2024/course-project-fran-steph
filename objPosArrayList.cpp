@@ -80,3 +80,4 @@ objPos objPosArrayList::getElement(int index) const
 {
     return aList[index];
 }
+

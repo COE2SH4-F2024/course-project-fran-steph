@@ -47,9 +47,9 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     // Instantiates player objects on the heap
-    myGM = new GameMechs(); //Tutorial 10, steph, iteration 1B, steph
-    myPlayer = new Player(myGM); //Tutorial 10, steph
-    myFood = new Food(); //iteration 2B, steph
+    myGM = new GameMechs(); 
+    myPlayer = new Player(myGM); 
+    myFood = new Food(); 
 }
 
 void GetInput(void)
@@ -62,8 +62,8 @@ void RunLogic(void)
 {
     // Update player direction and move snake
     objPosArrayList* playerPos = myPlayer -> getPlayerPos();
-    myPlayer->updatePlayerDir(); // iteration 1a, fran
-    myPlayer->movePlayer(myFood); // iteration 1a, fran
+    myPlayer->updatePlayerDir(); 
+    myPlayer->movePlayer(myFood); 
     
     //Generates the first food item on the gameboard after user begins to move player
     if(hasInput==0)
@@ -82,10 +82,11 @@ void DrawScreen(void)
     MacUILib_clearScreen(); 
     // Get board size, food, and player position 
     objPosArrayList* playerPos = myPlayer -> getPlayerPos(); // iteration 3.1, fran
-    objPosArrayList foodPos = myFood->getFoodBucket();
-    //objPos foodPos = myFood -> getFoodPos(); // UNCOMMENT FOR NORMAL
+    objPosArrayList* foodPos = myFood->getFoodBucket();
     int boardX = myGM->getBoardSizeX();
     int boardY = myGM->getBoardSizeY();
+
+   
 
     // Iterates through each position on the board
     for(int row = 0; row < boardY; row++)
@@ -118,12 +119,12 @@ void DrawScreen(void)
                 if(!isOccupied) 
                 {
                     // If position is food
-                    for(int i = 0; i < foodPos.getSize(); i++)
+                    for(int i = 0; i < foodPos->getSize(); i++)
                     {
-                        //foodPos.
-                        if(row == foodPos.getElement(i).pos->y && col == foodPos.getElement(i).pos->x) //(row == myFood->getFoodPos().pos->y && col == myFood->getFoodPos().pos->x) 
+                        //Prints food at coordinates
+                        if(row == foodPos->getElement(i).pos->y && col == foodPos->getElement(i).pos->x) //(row == myFood->getFoodPos().pos->y && col == myFood->getFoodPos().pos->x) 
                         {
-                            MacUILib_printf("%c", foodPos.getElement(i).symbol);
+                            MacUILib_printf("%c", foodPos->getElement(i).symbol);
                             isOccupied = true;
                             break;
                         }
