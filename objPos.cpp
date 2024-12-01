@@ -1,5 +1,7 @@
 #include "objPos.h"
 
+// Purpose: Holds methods for implementing Position and Symbol of Player, Food, etc.
+
 // Default Constructor
 objPos::objPos() 
 {
@@ -47,7 +49,7 @@ objPos::~objPos()
     delete pos;
 }
 
-// Setter
+// Sets Object (object parameter)
 void objPos::setObjPos(objPos o)
 {
     pos->x = o.pos->x;
@@ -55,7 +57,7 @@ void objPos::setObjPos(objPos o)
     symbol = o.symbol;
 }
 
-// Setter
+// Sets Object (pos and symbol parameter)
 void objPos::setObjPos(int xPos, int yPos, char sym)
 {
     pos->x = xPos;
@@ -74,16 +76,19 @@ objPos objPos::getObjPos() const
     return returnPos;
 }
 
+// Gets symbol of object
 char objPos::getSymbol() const
 {
     return symbol;
 }
 
+// Returns true if X and Y positions are equal
 bool objPos::isPosEqual(const objPos* refPos) const
 {
     return (refPos->pos->x == pos->x && refPos->pos->y == pos->y);
 }
 
+// Returns symbol if X and Y positions are equal
 char objPos::getSymbolIfPosEqual(const objPos* refPos) const
 {
     if(isPosEqual(refPos))

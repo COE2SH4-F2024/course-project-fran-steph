@@ -1,6 +1,8 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
 
+// Purpose: Methods responsible for game parameters: game board, exiting / losing, and score
+
 //Default constructor
 GameMechs::GameMechs()
 {

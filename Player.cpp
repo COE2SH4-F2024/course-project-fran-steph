@@ -1,8 +1,9 @@
 #include "Player.h"
 #include "MacUILib.h"
 
+// Purpose: Methods for Player actions: update direction and movement, etc.
 
-Player::Player(GameMechs* thisGMRef)// PPA3 input processing logic)
+Player::Player(GameMechs* thisGMRef)// PPA3 input processing logic
 {
     mainGameMechsRef = thisGMRef; 
     myDir = STOP; 
@@ -87,7 +88,7 @@ void Player::movePlayer(Food* thisFood)
     {
         case UP:
         yPos--;
-        // Heed Wraparound
+        // Implementing Top Border Wraparound
         if(yPos == 0) {
         yPos = mainGameMechsRef -> getBoardSizeY()-2;
         }
@@ -95,7 +96,7 @@ void Player::movePlayer(Food* thisFood)
 
         case DOWN:
         yPos++;
-        // Heed Wraparound
+        // Implementing Bottom Border Wraparound
         if(yPos == mainGameMechsRef -> getBoardSizeY()-1) {
         yPos = 1;
         }
@@ -103,7 +104,7 @@ void Player::movePlayer(Food* thisFood)
 
         case LEFT:
         xPos--;
-        // Heed Wraparound
+        // Implementing Left Border Wraparound
         if(xPos == 0) {
         xPos = mainGameMechsRef -> getBoardSizeX()-2;
         }
@@ -111,13 +112,14 @@ void Player::movePlayer(Food* thisFood)
 
         case RIGHT:
         xPos++;
-        // Heed Wraparound
+        // Implementing Right Border Wraparound
         if(xPos == mainGameMechsRef -> getBoardSizeX()-1) {
         xPos = 1;
         }
         break;
     }
 
+    // Collision Detection
     if(myDir!=STOP) 
     {
         
@@ -140,16 +142,17 @@ void Player::movePlayer(Food* thisFood)
         for(int i=0; i < foodSize; i++) {
             if(xPos == xFood[i] && yPos == yFood[i])
             {
-                //Checks for normal food and applies normal food rewards
+                //Checks for normal food ('o') and applies normal food rewards
                 if(getFood->getFoodBucket()->getElement(i).symbol == 'o')
                 {
                     playerPosList->insertHead(nextObj);
                     getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
-                    mainGameMechsRef->incrementScore();
+                    mainGameMechsRef->incrementScore(); // increase by 100 points
                     isFood = true;
                     break;
                 }
-                //Checks for special food and applies special food rewards
+
+                //Checks for special food ('$') and applies special food rewards
                 else
                 {
                     playerPosList->insertHead(nextObj);
@@ -172,7 +175,7 @@ void Player::movePlayer(Food* thisFood)
                 }
             }
         }
-        //Keeps player moving while mainting length
+        // If no collision, keeps player moving while maintaining length
         if(!isFood) {
 
             // Insert the new position to the front of the list and remove the last element in the list

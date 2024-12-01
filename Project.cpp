@@ -4,7 +4,9 @@
 #include "GameMechs.h"
 #include "Food.h"
 
-#define DELAY_CONST 100000
+#define DELAY_CONST 100000 // 0.1s
+
+// Purpose: Main Project Code
 
 // Define global pointers
 Player *myPlayer; 
@@ -71,7 +73,7 @@ void RunLogic(void)
     {
         if(myGM->getInput()!='\0')
         {
-            myFood->generateFood(playerPos,myGM->getBoardSizeX(), myGM->getBoardSizeY()); // iteration 1.3, fran
+            myFood->generateFood(playerPos,myGM->getBoardSizeX(), myGM->getBoardSizeY());
             hasInput++;
         }
     }
@@ -135,7 +137,7 @@ void DrawScreen(void)
                         }
                     }
                 }
-                if(!isOccupied) { // if empty
+                if(!isOccupied) { // if empty, print a space
                     MacUILib_printf("%c", ' ');
                 }
             }

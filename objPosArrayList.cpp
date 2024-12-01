@@ -4,6 +4,8 @@
 // Paste your Tested implementation here.
 // Paste your Tested implementation here.
 
+// Purpose: Methods for implementing 'snake' body for Player
+
 // Constructor
 objPosArrayList::objPosArrayList()
 {

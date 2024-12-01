@@ -1,6 +1,7 @@
 #include "Food.h"
 #include "GameMechs.h"
 
+// Purpose: Methods for Food Implementation in Snake Game
 
 Food::Food()
 {
