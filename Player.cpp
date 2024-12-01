@@ -153,12 +153,13 @@ void Player::movePlayer(Food* thisFood)
                 else
                 {
                     playerPosList->insertHead(nextObj);
-                    //Removes 2 tails if able
                     playerPosList->removeTail();
-                    if(playerPosList->getSize() > 1)
-                    playerPosList->removeTail();
-
-                    // Generate Food
+                    
+                    //Removes tail as long as player isn't already at size 1
+                    if(playerPosList->getSize()>1)
+                    {
+                        playerPosList->removeTail();
+                    }
                     getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
 
                     // Double Score
