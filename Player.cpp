@@ -141,7 +141,7 @@ void Player::movePlayer(Food* thisFood)
             if(xPos == xFood[i] && yPos == yFood[i])
             {
                 //Checks for normal food and applies normal food rewards
-                if(getFood->getFoodBucket()->getElement(i).symbol == 'f')
+                if(getFood->getFoodBucket()->getElement(i).symbol == 'o')
                 {
                     playerPosList->insertHead(nextObj);
                     getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
@@ -162,7 +162,7 @@ void Player::movePlayer(Food* thisFood)
                     }
                     getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
 
-                    // Double Score
+                    // Doubles the Score
                     int target = 2 * mainGameMechsRef->getScore();
                     while(mainGameMechsRef->getScore() != target)
                     mainGameMechsRef->incrementScore();
