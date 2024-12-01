@@ -4,14 +4,12 @@
 #include "GameMechs.h"
 #include "Food.h"
 
-using namespace std;
-
 #define DELAY_CONST 100000
-//Global pointer meant to instantiate a player object on the heap
+
+// Define global pointers
 Player *myPlayer; 
 GameMechs *myGM; 
 Food *myFood; 
-int hasInput = 0;
 
 
 void Initialize(void);
@@ -60,6 +58,9 @@ void GetInput(void)
 
 void RunLogic(void)
 {
+    // Static int for condition to generate first food on gameboard only once
+    static int hasInput = 0;
+
     // Update player direction and move snake
     objPosArrayList* playerPos = myPlayer -> getPlayerPos();
     myPlayer->updatePlayerDir(); 
@@ -80,24 +81,27 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
-    // Get board size, food, and player position 
-    objPosArrayList* playerPos = myPlayer -> getPlayerPos(); // iteration 3.1, fran
+
+    // Get food and player position 
+    objPosArrayList* playerPos = myPlayer -> getPlayerPos();
     objPosArrayList* foodPos = myFood->getFoodBucket();
+
+    // Get board X and Y dimension
     int boardX = myGM->getBoardSizeX();
     int boardY = myGM->getBoardSizeY();
-
-   
 
     // Iterates through each position on the board
     for(int row = 0; row < boardY; row++)
     {
         for(int col = 0; col < boardX; col++)
         {
+
             // If on the edge of the bord, print border ('#')
             if(row == 0 || row == boardY-1 || col == 0 || col == boardX-1) 
             {
                 MacUILib_printf("%c", '#');
             }
+
             //Draws everything else inside the border
             else 
             {
@@ -106,6 +110,7 @@ void DrawScreen(void)
                 // Iterates through each element in snake body
                 for(int i=0; i < playerPos->getSize(); i++) 
                 {
+
                     // If position has a snake element, draws player at it's location
                     if(row == playerPos->getElement(i).pos->y && col == playerPos->getElement(i).pos->x)
                     {
@@ -122,7 +127,7 @@ void DrawScreen(void)
                     for(int i = 0; i < foodPos->getSize(); i++)
                     {
                         //Prints food at coordinates
-                        if(row == foodPos->getElement(i).pos->y && col == foodPos->getElement(i).pos->x) //(row == myFood->getFoodPos().pos->y && col == myFood->getFoodPos().pos->x) 
+                        if(row == foodPos->getElement(i).pos->y && col == foodPos->getElement(i).pos->x)
                         {
                             MacUILib_printf("%c", foodPos->getElement(i).symbol);
                             isOccupied = true;

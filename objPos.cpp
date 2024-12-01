@@ -1,6 +1,7 @@
 #include "objPos.h"
 
-objPos::objPos() // Default Constructor
+// Default Constructor
+objPos::objPos() 
 {
     pos = new Pos;
     pos->x = 0;
@@ -8,6 +9,7 @@ objPos::objPos() // Default Constructor
     symbol = 0; //NULL
 }
 
+//Specialized Constructor
 objPos::objPos(int xPos, int yPos, char sym)
 {
     pos = new Pos;
@@ -16,8 +18,8 @@ objPos::objPos(int xPos, int yPos, char sym)
     symbol = sym;
 }
 
-
-objPos::objPos(const objPos &obj) //Copy Constructor
+//Copy Constructor
+objPos::objPos(const objPos &obj)
 {
     pos = new Pos;
     pos->x = obj.pos->x;
@@ -25,7 +27,8 @@ objPos::objPos(const objPos &obj) //Copy Constructor
     symbol = obj.symbol;
 }
 
-objPos& objPos::operator=(const objPos &obj) //Copy Assignment Operator
+//Copy Assignment Operator
+objPos& objPos::operator=(const objPos &obj)
 {
     if(this != &obj)
     {
@@ -38,11 +41,13 @@ objPos& objPos::operator=(const objPos &obj) //Copy Assignment Operator
     return *this;
 }
 
-objPos::~objPos() //Destructor
+//Destructor
+objPos::~objPos()
 {
     delete pos;
 }
 
+// Setter
 void objPos::setObjPos(objPos o)
 {
     pos->x = o.pos->x;
@@ -50,6 +55,7 @@ void objPos::setObjPos(objPos o)
     symbol = o.symbol;
 }
 
+// Setter
 void objPos::setObjPos(int xPos, int yPos, char sym)
 {
     pos->x = xPos;
@@ -57,6 +63,7 @@ void objPos::setObjPos(int xPos, int yPos, char sym)
     symbol = sym;
 }
 
+// Gets object
 objPos objPos::getObjPos() const
 {
     objPos returnPos;

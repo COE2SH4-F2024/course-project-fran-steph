@@ -4,15 +4,16 @@
 // Paste your Tested implementation here.
 // Paste your Tested implementation here.
 
-// Iteration 2a, fran
-objPosArrayList::objPosArrayList() // Constructor
+// Constructor
+objPosArrayList::objPosArrayList()
 {
     listSize = 0;
     arrayCapacity = ARRAY_MAX_CAP;
     aList = new objPos[ARRAY_MAX_CAP]; 
 }
 
-objPosArrayList::~objPosArrayList() // Destructor to remove  the heap
+// Destructor to remove on the heap
+objPosArrayList::~objPosArrayList()
 {
     delete[] aList; 
 }

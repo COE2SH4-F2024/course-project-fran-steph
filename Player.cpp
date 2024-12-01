@@ -8,8 +8,8 @@ Player::Player(GameMechs* thisGMRef)// PPA3 input processing logic)
     myDir = STOP; 
 
     playerPosList = new objPosArrayList(); // instantiates playerPosList on the heap
-    objPos thisPos(mainGameMechsRef -> getBoardSizeX()/2, mainGameMechsRef -> getBoardSizeY()/2, '@');
-    playerPosList->insertHead(thisPos); // Inserts first element to be in the middle of the board with symbol: '@'
+    objPos thisPos(mainGameMechsRef -> getBoardSizeX()/2, mainGameMechsRef -> getBoardSizeY()/2, '*');
+    playerPosList->insertHead(thisPos); // Inserts first element to be in the middle of the board with symbol: '*'
 }
 
 // Destructor
@@ -125,14 +125,14 @@ void Player::movePlayer(Food* thisFood)
         for(int i = 1; i < playerPosList->getSize(); i++)
         {
             objPos playerBody = playerPosList->getElement(i);
-            if(playerBody.pos->x == xPos && playerBody.pos->y == yPos) // Previously if(playerBody.pos->x == playerPos.pos->x && playerBody.pos->y == playerPos.pos->y)
+            if(playerBody.pos->x == xPos && playerBody.pos->y == yPos)
             {
                 mainGameMechsRef->setLoseFlag();
-                break; // added break for efficiency
+                break;
             }
         }
         
-        objPos nextObj(xPos,yPos,'@');
+        objPos nextObj(xPos,yPos,'*');
         bool isFood = false;
 
         //Detects if player has encoutered food and increments score and increase size if true
@@ -141,7 +141,7 @@ void Player::movePlayer(Food* thisFood)
             if(xPos == xFood[i] && yPos == yFood[i])
             {
                 //Checks for normal food and applies normal food rewards
-                if(getFood->getFoodBucket()->getElement(i).symbol == '*')
+                if(getFood->getFoodBucket()->getElement(i).symbol == 'f')
                 {
                     playerPosList->insertHead(nextObj);
                     getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
@@ -153,13 +153,19 @@ void Player::movePlayer(Food* thisFood)
                 else
                 {
                     playerPosList->insertHead(nextObj);
-                    //Removes 2 tails
+                    //Removes 2 tails if able
                     playerPosList->removeTail();
+                    if(playerPosList->getSize() > 1)
                     playerPosList->removeTail();
+
+                    // Generate Food
                     getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
+
+                    // Double Score
+                    int target = 2 * mainGameMechsRef->getScore();
+                    while(mainGameMechsRef->getScore() != target)
                     mainGameMechsRef->incrementScore();
-                    //Doubles the score
-                    mainGameMechsRef->incrementScore();
+                    
                     isFood = true;
                     break;
                 }
@@ -167,7 +173,7 @@ void Player::movePlayer(Food* thisFood)
         }
         //Keeps player moving while mainting length
         if(!isFood) {
-            // fran, iteration 3.1
+
             // Insert the new position to the front of the list and remove the last element in the list
             playerPosList->insertHead(nextObj);
             playerPosList->removeTail();

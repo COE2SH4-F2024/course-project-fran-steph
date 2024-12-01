@@ -7,7 +7,7 @@ Food::Food()
     foodPos.setObjPos(-10,-10,'$'); 
     foodBucket = new objPosArrayList(); 
     foodBucket->insertHead(foodPos); 
-    foodPos.setObjPos(-10,-10,'*');
+    foodPos.setObjPos(-10,-10,'f');
     size = 5;
     for(int i=0; i<size-1; i++) 
     { 
@@ -92,7 +92,7 @@ void Food::generateFood(objPosArrayList* blockOff, int xRange, int yRange)
             //Generates food if all conditions are met
             if(!flag) 
             {
-                foodPos.setObjPos(posX+1,posY+1,'*');
+                foodPos.setObjPos(posX+1,posY+1,'f');
                 foodBucket->removeTail();
                 foodBucket->insertHead(foodPos);
                 positionFound = true;
