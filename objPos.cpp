@@ -29,9 +29,11 @@ objPos& objPos::operator=(const objPos &obj) //Copy Assignment Operator
 {
     if(this != &obj)
     {
-        this->pos->x = obj.pos->x;
-        this->pos->y = obj.pos->y;
-        this->symbol = obj.symbol;
+        delete pos;
+        pos = new Pos;
+        pos->x = obj.pos->x;
+        pos->y = obj.pos->y;
+        symbol = obj.symbol;
     }
     return *this;
 }

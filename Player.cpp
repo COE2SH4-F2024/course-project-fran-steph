@@ -69,17 +69,17 @@ void Player::movePlayer(Food* thisFood)
     int yPos = playerPos.pos->y;
 
     getFood = thisFood;
-    int xFood = getFood->getFoodPos().pos->x, yFood = getFood->getFoodPos().pos->y;
-    //int foodSize = thisFood->getSize();
-    //int xFood[foodSize];
-    //int yFood[foodSize];
-    /*
+    //int xFood = getFood->getFoodPos().pos->x, yFood = getFood->getFoodPos().pos->y; // UNCOMMENT FOR NORMAL
+    int foodSize = thisFood->getSize();
+    int xFood[foodSize];
+    int yFood[foodSize];
+    
     for(int i = 0; i < foodSize; i++)
     {
-        xFood[i] = thisFood->getFoodBucket().getElement(i).pos->x;
-        yFood[i] = thisFood->getFoodBucket().getElement(i).pos->y;
+        xFood[i] = thisFood->getFoodPos().pos->x; // Changed getFoodBucket to getFoodPos
+        yFood[i] = thisFood->getFoodPos().pos->y; // Changed getFoodBucket to getFoodPos
     }
-    */
+    
     // Increments new x and y position based on direction
     switch(myDir)
     {
@@ -123,36 +123,34 @@ void Player::movePlayer(Food* thisFood)
         for(int i = 1; i < playerPosList->getSize(); i++)
         {
             objPos playerBody = playerPosList->getElement(i);
-            if(playerPos.isPosEqual(&playerBody)) // Previously if(playerBody.pos->x == playerPos.pos->x && playerBody.pos->y == playerPos.pos->y)
+            if(playerBody.pos->x == xPos && playerBody.pos->y == yPos) // Previously if(playerBody.pos->x == playerPos.pos->x && playerBody.pos->y == playerPos.pos->y)
             {
                 mainGameMechsRef->setLoseFlag();
                 break; // added break for efficiency
             }
         }
-        objPos nextObj(xPos,yPos,'@'); // object for next position
         
-        //for(int i = 0; i < foodSize; i++)
-        //{
+        objPos nextObj(xPos,yPos,'@');
+        bool isFood = false;
+
         //Detects if player has encoutered food and increments score and increase size if true
         //If new position is food, inserts new position to the head of the snake, increments score, and generates new food
-        if(xPos == xFood && yPos == yFood)
-        {
-            playerPosList->insertHead(nextObj);
-            getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
-            mainGameMechsRef->incrementScore();
+        for(int i=0; i < foodSize; i++) {
+            if(xPos == xFood[i] && yPos == yFood[i])
+            {
+                playerPosList->insertHead(nextObj);
+                getFood->generateFood(playerPosList, mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY());
+                mainGameMechsRef->incrementScore();
+                isFood = true;
+                break;
+            }
         }
-        
         //Keeps player moving while mainting length
-        else
-        {
+        if(!isFood) {
             // fran, iteration 3.1
             // Insert the new position to the front of the list and remove the last element in the list
             playerPosList->insertHead(nextObj);
             playerPosList->removeTail();
         }
-        //}
     } 
-    
-    
 }
-

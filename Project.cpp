@@ -11,7 +11,6 @@ using namespace std;
 Player *myPlayer; 
 GameMechs *myGM; 
 Food *myFood; 
-
 int hasInput = 0;
 
 
@@ -81,11 +80,10 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
-
     // Get board size, food, and player position 
     objPosArrayList* playerPos = myPlayer -> getPlayerPos(); // iteration 3.1, fran
-    //objPosArrayList foodPos = myFood->getFoodBucket();
-    objPos foodPos = myFood -> getFoodPos();
+    objPosArrayList foodPos = myFood->getFoodBucket();
+    //objPos foodPos = myFood -> getFoodPos(); // UNCOMMENT FOR NORMAL
     int boardX = myGM->getBoardSizeX();
     int boardY = myGM->getBoardSizeY();
 
@@ -102,35 +100,37 @@ void DrawScreen(void)
             //Draws everything else inside the border
             else 
             {
-                bool isPlayer = false; 
+                bool isOccupied = false; 
                 
                 // Iterates through each element in snake body
-                for(int i=0; i<playerPos->getSize(); i++) 
+                for(int i=0; i < playerPos->getSize(); i++) 
                 {
                     // If position has a snake element, draws player at it's location
                     if(row == playerPos->getElement(i).pos->y && col == playerPos->getElement(i).pos->x)
                     {
                         MacUILib_printf("%c",playerPos->getElement(i).symbol);
-                        isPlayer = true;
+                        isOccupied = true;
                         break;
                     }
                 }
 
                 // If position is not occupied by snake, draws food where player isn't
-                if(!isPlayer) 
+                if(!isOccupied) 
                 {
                     // If position is food
-                    //for(int i = 0; myFood->getSize(); i++)
-                    //{
-                        if(row == foodPos.pos->y && col == foodPos.pos->x) 
+                    for(int i = 0; i < foodPos.getSize(); i++)
+                    {
+                        //foodPos.
+                        if(row == foodPos.getElement(i).pos->y && col == foodPos.getElement(i).pos->x) //(row == myFood->getFoodPos().pos->y && col == myFood->getFoodPos().pos->x) 
                         {
-                            MacUILib_printf("%c", foodPos.symbol);
-                        } 
-                        else // if empty
-                        { 
-                        MacUILib_printf("%c", ' ');
+                            MacUILib_printf("%c", foodPos.getElement(i).symbol);
+                            isOccupied = true;
+                            break;
                         }
-                    //}
+                    }
+                }
+                if(!isOccupied) { // if empty
+                    MacUILib_printf("%c", ' ');
                 }
             }
         }
@@ -147,8 +147,6 @@ void DrawScreen(void)
         MacUILib_Delay(50000);
         myGM-> setExitTrue();
     }
-
- 
 }
 
 void LoopDelay(void)
