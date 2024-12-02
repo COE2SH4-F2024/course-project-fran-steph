@@ -122,8 +122,7 @@ void Player::movePlayer(Food* thisFood)
     // Collision Detection
     if(myDir!=STOP) 
     {
-        
-        //Checks if 'snake' has encoutered itself and sets loseFlag if it has
+        /* 
         for(int i = 1; i < playerPosList->getSize(); i++)
         {
             objPos playerBody = playerPosList->getElement(i);
@@ -133,7 +132,14 @@ void Player::movePlayer(Food* thisFood)
                 break;
             }
         }
-        
+        */
+
+        //Checks if 'snake' has encoutered itself and sets loseFlag if it has
+        if(checkSelfCollision(xPos,yPos)) 
+        {
+            mainGameMechsRef->setLoseFlag();
+        }
+
         objPos nextObj(xPos,yPos,'*');
         bool isFood = false;
 
@@ -183,4 +189,18 @@ void Player::movePlayer(Food* thisFood)
             playerPosList->removeTail();
         }
     } 
+}
+
+// Iterates through player elements and if any positions are the same
+bool Player::checkSelfCollision(int xVal, int yVal) 
+{
+    for(int i = 1; i < playerPosList->getSize(); i++)
+    {
+        objPos playerBody = playerPosList->getElement(i);
+        if(playerBody.pos->x == xVal && playerBody.pos->y == yVal)
+        {
+            return true;
+        }
+    }
+    return false;
 }

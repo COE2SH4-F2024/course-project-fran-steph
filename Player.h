@@ -18,6 +18,7 @@ class Player
         objPosArrayList* getPlayerPos() const; // Upgrade this in iteration 3
         void updatePlayerDir();
         void movePlayer(Food* thisFood);
+        bool checkSelfCollision(int xVal, int yVal); // Added Method
 
     private:
         objPosArrayList* playerPosList; // Upgrade this in iteration 3     
